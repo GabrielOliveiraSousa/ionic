@@ -20,7 +20,7 @@ ion-button {
   --border-radius: 12px;
   --padding-start: 20px;
   --padding-end:  20px;
-  height: auto; /* Add this to prevent stretching */
+  height: 36px; /* Ajuste de altura para evitar esticamento */
 }
 
 .tela {
@@ -38,9 +38,9 @@ form {
   flex-direction: column;
 }
 
-/* Optional: Add max-width to the form container for better mobile UX */
 .ion-margin {
   max-width: 500px;
   margin: 0 auto;
   padding: 20px;
+  height: auto;
 }
