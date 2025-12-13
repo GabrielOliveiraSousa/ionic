@@ -1,23 +1,46 @@
-body, ion-content {
-height: 100%;
-margin: 0;
-padding: 0;
-text-align: center;
+body {
+  margin: 0;
+  padding: 0;
+  text-align: center;
 }
+
+ion-content {
+  --background:  #fff;
+  height: 100%;
+}
+
 h1 {
-margin-top: 30%;
-font-size: 2rem;
-color: #222;
+  margin-top: 30px;
+  font-size: 2rem;
+  color: #222;
 }
+
 ion-button {
-margin-top: 20px;
---border-radius: 12px;
---padding-start: 20px;
---padding-end: 20px;
+  margin-top: 20px;
+  --border-radius: 12px;
+  --padding-start: 20px;
+  --padding-end:  20px;
+  height: auto; /* Add this to prevent stretching */
 }
+
 .tela {
-display: none;
+  display: none;
+  height: 100%;
 }
+
 .tela.ativa {
-display: block;
+  display: block;
+}
+
+/* Fix for forms to prevent stretching */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Optional: Add max-width to the form container for better mobile UX */
+.ion-margin {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
 }
