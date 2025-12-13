@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Aula 2 Navegação entre Telas</title>
+
+<link rel="stylesheet" href="style.css">
+
+<!-- Ionic CDN -->
+
+<script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
+
+<script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"/>
+
+</head>
+
+<body>
+
+<ion-app>
+
+<!-- Tela 1 -->
+ 
+<ion-content id="tela1" class="tela ativa">
+<ion-header>
+  <ion-toolbar>
+    <ion-title> <h1>Log-in</h1> </ion-title>
+  </ion-toolbar>
+</ion-header>
+<br><br>
+<div class="ion-margin">
+<form>
+ 
+<ion-input id="usuário" aria-label="Usuário" label="Usuário:" color="danger" label-placement="floating" fill="outline" clear-input="true" placeholder="Digite" required></ion-input>
+<br><br>
+ 
+<ion-input id="senha" aria-label="Senha" label="Senha:" color="danger" label-placement="floating" fill="outline" clear-input="true" placeholder="Digite" required></ion-input>
+<br><br>
+
+<ion-label color="tertiary" >Esqueci a Senha</ion-label>
+<br><br>
+ 
+<ion-button expand="block" color="danger" onclick="mostrarTela ('tela2')" >Log-in </ion-button>
+ 
+</form>
+</div>
+</ion-content>
+ 
+<!-- Tela 2 -->
+ 
+<ion-content id="tela2" class="tela">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title> <h1>Resultado</h1> </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <br><br>
+  <div class="ion-margin">
+ 
+    <p></p>
+ 
+    <ion-button expand="block" color="danger" onclick="mostrarTela ('tela1')">Voltar</ion-button>
+
+</div>
+
+</ion-content>
+
+</ion-app>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

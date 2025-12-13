@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "712191145928",
+    "project_id": "ionic-173ca",
+    "storage_bucket": "ionic-173ca.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712191145928:android:eddb8a6b00f9cff77572fd",
+        "android_client_info": {
+          "package_name": "com.meuprojeto.iot"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHV_Ll1femLaDIUudFfLjbG1OUjz3r60Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
