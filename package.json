@@ -10,8 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@capacitor-firebase/app": "^7.4.0",
     "@capacitor/android": "^8.0.0",
     "@capacitor/cli": "^8.0.0",
-    "@capacitor/core": "^8.0.0"
+    "@capacitor/core": "^8.0.0",
+    "firebase": "^11.10.0"
   }
 }

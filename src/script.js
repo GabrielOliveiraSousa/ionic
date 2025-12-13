@@ -1,10 +1,11 @@
-// Função para trocar entre telas
-function mostrarTela (idTela) {
-// Oculta todas as telas
-document.querySelectorAll(".tela").forEach(tela => {
-tela.classList.remove("ativa");
-});
-// Mostra apenas a tela selecionada
-document.getElementById(idTela).classList.add("ativa");
+function mostrarTela(telaId) {
+  // Esconde todas as telas
+  const telas = document.querySelectorAll('.tela');
+  telas.forEach(tela => tela.classList.remove('ativa'));
+  
+  // Mostra a tela selecionada
+  const telaSelecionada = document.getElementById(telaId);
+  if (telaSelecionada) {
+    telaSelecionada. classList.add('ativa');
+  }
 }
- 

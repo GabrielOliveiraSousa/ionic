@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<! DOCTYPE html>
 
 <html lang="pt-BR">
 
@@ -8,7 +8,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Aula 2 Navegação entre Telas</title>
+<title>Projeto IoT</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -26,7 +26,7 @@
 
 <ion-app>
 
-<!-- Tela 1 -->
+<!-- Tela 1 - Login -->
  
 <ion-content id="tela1" class="tela ativa">
 <ion-header>
@@ -35,45 +35,98 @@
   </ion-toolbar>
 </ion-header>
 <br><br>
+<ion-loading id="loadingLogin"></ion-loading>
 <div class="ion-margin">
-<form>
+<form id="loginForm">
  
-<ion-input id="usuário" aria-label="Usuário" label="Usuário:" color="danger" label-placement="floating" fill="outline" clear-input="true" placeholder="Digite" required></ion-input>
+<ion-input id="email" type="email" aria-label="Email" label="Email:" color="danger" label-placement="floating" fill="outline" clear-input="true" placeholder="Digite seu email" required></ion-input>
 <br><br>
  
-<ion-input id="senha" aria-label="Senha" label="Senha:" color="danger" label-placement="floating" fill="outline" clear-input="true" placeholder="Digite" required></ion-input>
+<ion-input id="senha" type="password" aria-label="Senha" label="Senha:" color="danger" label-placement="floating" fill="outline" clear-input="true" placeholder="Digite sua senha" required></ion-input>
 <br><br>
 
-<ion-label color="tertiary" >Esqueci a Senha</ion-label>
+<ion-label color="tertiary" onclick="mostrarTela('tela3')" style="cursor: pointer;">Esqueci a Senha</ion-label>
 <br><br>
  
-<ion-button expand="block" color="danger" onclick="mostrarTela ('tela2')" >Log-in </ion-button>
+<ion-button expand="block" color="danger" type="submit">Log-in</ion-button>
+<br>
+<ion-button expand="block" color="secondary" onclick="mostrarTela('tela4')">Criar Conta</ion-button>
  
 </form>
+
+<div id="mensagemLogin" style="margin-top: 10px;"></div>
 </div>
 </ion-content>
  
-<!-- Tela 2 -->
+<!-- Tela 2 - Resultado/Dashboard -->
  
 <ion-content id="tela2" class="tela">
   <ion-header>
     <ion-toolbar>
-      <ion-title> <h1>Resultado</h1> </ion-title>
+      <ion-title> <h1>Bem-vindo!</h1> </ion-title>
     </ion-toolbar>
   </ion-header>
   <br><br>
   <div class="ion-margin">
  
-    <p></p>
- 
-    <ion-button expand="block" color="danger" onclick="mostrarTela ('tela1')">Voltar</ion-button>
+    <p id="usuarioLogado"></p>
+    <br>
+    <ion-button expand="block" color="danger" onclick="logout()">Sair</ion-button>
 
 </div>
 
 </ion-content>
 
+<!-- Tela 3 - Esqueci a Senha -->
+
+<ion-content id="tela3" class="tela">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title> <h1>Recuperar Senha</h1> </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <br><br>
+  <div class="ion-margin">
+    <form id="recuperarSenhaForm">
+      <ion-input id="emailRecuperar" type="email" aria-label="Email" label="Email:" color="danger" label-placement="floating" fill="outline" clear-input="true" placeholder="Digite seu email" required></ion-input>
+      <br><br>
+      
+      <ion-button expand="block" color="danger" type="submit">Enviar Link de Recuperação</ion-button>
+      <br>
+      <ion-button expand="block" fill="outline" color="danger" onclick="mostrarTela('tela1')">Voltar</ion-button>
+    </form>
+    <div id="mensagemRecuperar" style="margin-top:  10px;"></div>
+  </div>
+</ion-content>
+
+<!-- Tela 4 - Criar Conta -->
+
+<ion-content id="tela4" class="tela">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title> <h1>Criar Conta</h1> </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <br><br>
+  <div class="ion-margin">
+    <form id="criarContaForm">
+      <ion-input id="emailCriar" type="email" aria-label="Email" label="Email:" color="danger" label-placement="floating" fill="outline" clear-input="true" placeholder="Digite seu email" required></ion-input>
+      <br><br>
+      
+      <ion-input id="senhaCriar" type="password" aria-label="Senha" label="Senha:" color="danger" label-placement="floating" fill="outline" clear-input="true" placeholder="Digite sua senha (min.  6 caracteres)" required></ion-input>
+      <br><br>
+      
+      <ion-button expand="block" color="danger" type="submit">Criar Conta</ion-button>
+      <br>
+      <ion-button expand="block" fill="outline" color="danger" onclick="mostrarTela('tela1')">Voltar</ion-button>
+    </form>
+    <div id="mensagemCriar" style="margin-top: 10px;"></div>
+  </div>
+</ion-content>
+
 </ion-app>
 
+<script type="module" src="firebase-config.js"></script>
 <script src="script.js"></script>
 
 </body>
