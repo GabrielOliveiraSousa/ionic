@@ -63,18 +63,59 @@
 <ion-content id="tela2" class="tela">
   <ion-header>
     <ion-toolbar>
-      <ion-title> <h1>Bem-vindo!</h1> </ion-title>
+      <ion-title> <h1>Dashboard IoT</h1> </ion-title>
     </ion-toolbar>
   </ion-header>
   <br><br>
   <div class="ion-margin">
  
-    <p id="usuarioLogado"></p>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Bem-vindo!</ion-card-title>
+        <ion-card-subtitle id="usuarioLogado"></ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
+
+    <!-- LED Control Card -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Controle do LED</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div style="text-align: center;">
+          <ion-icon id="ledIcon" name="bulb-outline" style="font-size: 64px; color: gray;"></ion-icon>
+          <br><br>
+          <ion-button id="ledButton" expand="block" color="danger" onclick="toggleLED()">
+            <ion-icon slot="start" name="power"></ion-icon>
+            Ligar LED
+          </ion-button>
+          <p id="ledStatus" style="margin-top: 10px;">Status: Desligado</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Temperature Card -->
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Sensor de Temperatura</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div style="text-align: center;">
+          <ion-icon name="thermometer-outline" style="font-size: 64px; color: #eb445a;"></ion-icon>
+          <br><br>
+          <h2 id="temperatureValue" style="font-size: 2. 5rem; margin:  0;">-- °C</h2>
+          <p style="color: gray;">Temperatura atual</p>
+          <p id="mqttStatus" style="margin-top: 10px; color: orange;">Conectando ao MQTT...</p>
+        </div>
+      </ion-card-content>
+    </ion-card>
     <br>
-    <ion-button expand="block" color="danger" onclick="logout()">Sair</ion-button>
+    <ion-button expand="block" color="medium" onclick="logout()">
+      <ion-icon slot="start" name="log-out"></ion-icon>
+      Sair
+    </ion-button>
 
-</div>
-
+  </div>
 </ion-content>
 
 <!-- Tela 3 - Esqueci a Senha -->
@@ -128,6 +169,7 @@
 
 <script type="module" src="firebase-config.js"></script>
 <script src="script.js"></script>
+<script type="module" src="mqtt-client.js"></script>
 
 </body>
 
