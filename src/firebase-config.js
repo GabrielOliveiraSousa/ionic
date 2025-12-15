@@ -8,7 +8,7 @@ import {
   onAuthStateChanged
 } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
 
-// Sua configuração do Firebase (pegue do Firebase Console)
+
 const firebaseConfig = {
   apiKey: "AIzaSyCFHIkFS0naOyT3Gz86YwU1o4y2C_56s9w",
   authDomain: "ionic-173ca.firebaseapp.com",
@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 });
 
-// Função de Logout (disponível globalmente)
+// Função de Logout
 window.logout = async function() {
   try {
     await signOut(auth);

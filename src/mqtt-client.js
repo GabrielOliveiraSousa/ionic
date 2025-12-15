@@ -2,8 +2,8 @@ import mqtt from 'mqtt';
 
 // MQTT Configuration
 const MQTT_BROKER = 'wss://broker.hivemq.com:8884/mqtt'; // WebSocket secure connection
-const TOPIC_LED = 'ionic/esp32/led';
-const TOPIC_TEMPERATURE = 'ionic/esp32/temperature';
+const TOPIC_LED = 'wokwi/esp32/led/control';
+const TOPIC_TEMPERATURE = 'wokwi/esp32/temperature';
 
 let client = null;
 let ledState = false;
@@ -60,7 +60,7 @@ export function connectMQTT() {
   });
 }
 
-// Toggle LED
+
 window.toggleLED = function() {
   if (! client || !client.connected) {
     alert('MQTT não está conectado!');
