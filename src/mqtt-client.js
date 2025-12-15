@@ -1,16 +1,31 @@
-import mqtt from 'mqtt';
-
 // MQTT Configuration
-const MQTT_BROKER = 'wss://broker.hivemq.com:8884/mqtt'; // WebSocket secure connection
+const MQTT_BROKER = 'wss://test.mosquitto.org:8081'; // WebSocket connection
 const TOPIC_LED = 'wokwi/esp32/led/control';
 const TOPIC_TEMPERATURE = 'wokwi/esp32/temperature';
 
 let client = null;
 let ledState = false;
 
-// Connect to MQTT Broker
-export function connectMQTT() {
+
+function initMQTT() {
+  
+  if (typeof mqtt === 'undefined') {
+    console.error('MQTT library not loaded! ');
+    document.getElementById('mqttStatus').textContent = 'Erro:  Biblioteca MQTT não carregada';
+    document.getElementById('mqttStatus').style.color = 'red';
+    return;
+  }
+
+  connectMQTT();
+}
+
+
+function connectMQTT() {
   const clientId = 'ionic_' + Math.random().toString(16).substr(2, 8);
+  
+  console.log('Connecting to MQTT broker...');
+  console.log('Broker:', MQTT_BROKER);
+  console.log('Client ID:', clientId);
   
   client = mqtt.connect(MQTT_BROKER, {
     clientId: clientId,
@@ -20,14 +35,16 @@ export function connectMQTT() {
   });
 
   client.on('connect', function () {
-    console.log('Connected to MQTT broker');
+    console.log('✓ Connected to MQTT broker');
     document.getElementById('mqttStatus').textContent = 'Conectado ao MQTT';
     document.getElementById('mqttStatus').style.color = 'green';
     
-    // Subscribe temperature topic
+    // Subscribe to temperature topic
     client.subscribe(TOPIC_TEMPERATURE, function (err) {
       if (! err) {
-        console.log('Subscribed to temperature topic');
+        console.log('✓ Subscribed to temperature topic:', TOPIC_TEMPERATURE);
+      } else {
+        console.error('✗ Subscribe error:', err);
       }
     });
   });
@@ -54,7 +71,7 @@ export function connectMQTT() {
   });
 
   client.on('reconnect', function () {
-    console.log('MQTT reconnecting.. .');
+    console.log('MQTT reconnecting...');
     document.getElementById('mqttStatus').textContent = 'Reconectando... ';
     document.getElementById('mqttStatus').style.color = 'orange';
   });
@@ -62,50 +79,64 @@ export function connectMQTT() {
 
 
 window.toggleLED = function() {
-  if (! client || !client.connected) {
+  console.log('toggleLED called');
+  
+  if (! client || ! client.connected) {
     alert('MQTT não está conectado!');
+    console.error('MQTT not connected');
     return;
   }
 
   ledState = !ledState;
   const message = ledState ? 'ON' : 'OFF';
   
+  console.log('Publishing to', TOPIC_LED, ':', message);
+  
   client.publish(TOPIC_LED, message, { qos: 1 }, function(err) {
-    if (!err) {
+    if (! err) {
+      console.log('✓ LED command sent:', message);
       updateLEDUI(ledState);
+    } else {
+      console.error('✗ Publish error:', err);
     }
   });
 };
 
-// Atualiza a UI do LED
+
 function updateLEDUI(isOn) {
   const ledIcon = document.getElementById('ledIcon');
   const ledButton = document.getElementById('ledButton');
-  const ledStatus = document. getElementById('ledStatus');
+  const ledStatus = document.getElementById('ledStatus');
   
   if (isOn) {
-    ledIcon.name = 'bulb';
+    ledIcon.setAttribute('name', 'bulb');
     ledIcon.style.color = '#ffd534';
-    ledButton.textContent = 'Desligar LED';
-    ledButton.color = 'success';
-    ledStatus.textContent = 'Status: Ligado';
+    ledButton.innerHTML = '<ion-icon slot="start" name="power"></ion-icon> Desligar LED';
+    ledButton.setAttribute('color', 'success');
+    ledStatus.textContent = 'Status:  Ligado';
     ledStatus.style.color = 'green';
   } else {
-    ledIcon.name = 'bulb-outline';
+    ledIcon.setAttribute('name', 'bulb-outline');
     ledIcon.style.color = 'gray';
-    ledButton.innerHTML = '<ion-icon slot="start" name="power"></ion-icon>Ligar LED';
-    ledButton.color = 'danger';
+    ledButton.innerHTML = '<ion-icon slot="start" name="power"></ion-icon> Ligar LED';
+    ledButton.setAttribute('color', 'danger');
     ledStatus.textContent = 'Status: Desligado';
-    ledStatus.style. color = 'gray';
+    ledStatus. style.color = 'gray';
   }
 }
 
-// Atualiza a temperatura na UI
+
 function updateTemperature(temp) {
   const tempElement = document.getElementById('temperatureValue');
+  
+  if (! tempElement) {
+    console.error('Temperature element not found');
+    return;
+  }
+  
   tempElement.textContent = temp.toFixed(1) + ' °C';
   
-  // Troca a cor com base na temperatura
+  
   if (temp < 20) {
     tempElement.style.color = '#3880ff'; // Blue for cold
   } else if (temp < 30) {
@@ -113,27 +144,50 @@ function updateTemperature(temp) {
   } else {
     tempElement.style.color = '#eb445a'; // Red for hot
   }
+  
+  console.log('Temperature updated:', temp. toFixed(1) + '°C');
 }
 
-// Disconecta MQTT
-export function disconnectMQTT() {
+
+function disconnectMQTT() {
   if (client) {
     client.end();
-    console.log('Desconectado do MQTT');
+    console.log('Disconnected from MQTT');
   }
 }
 
-// Inicializa o MQTT quando a tela2 é exibida
-document.addEventListener('DOMContentLoaded', function() {
-  // Connect to MQTT when user logs in (tela2 is shown)
-  const originalMostrarTela = window.mostrarTela;
-  window.mostrarTela = function(telaId) {
-    originalMostrarTela(telaId);
-    
-    if (telaId === 'tela2') {
-      connectMQTT();
-    } else if (telaId === 'tela1') {
-      disconnectMQTT();
+
+window.logout = async function() {
+  disconnectMQTT();
+  try {
+    const auth = window.firebaseAuth;
+    if (auth) {
+      await auth.signOut();
     }
-  };
+    mostrarTela('tela1');
+  } catch (error) {
+    console.error('Erro ao fazer logout:', error);
+    mostrarTela('tela1');
+  }
+};
+
+
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('DOM loaded, setting up MQTT...');
+  
+  
+  const originalMostrarTela = window.mostrarTela;
+  if (originalMostrarTela) {
+    window.mostrarTela = function(telaId) {
+      originalMostrarTela(telaId);
+      
+      if (telaId === 'tela2') {
+        console.log('Dashboard shown, connecting MQTT...');
+        setTimeout(initMQTT, 500); 
+      } else if (telaId === 'tela1') {
+        console.log('Login screen shown, disconnecting MQTT...');
+        disconnectMQTT();
+      }
+    };
+  }
 });
